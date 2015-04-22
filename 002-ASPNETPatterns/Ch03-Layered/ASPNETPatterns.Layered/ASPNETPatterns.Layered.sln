@@ -1,0 +1,63 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASPNETPatterns.Layered.Model", "ASPNETPatterns.Layered.Model\ASPNETPatterns.Layered.Model.csproj", "{607DFC84-7C84-4D6C-82B0-A0A5518F6A04}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASPNETPatterns.Layered.Service", "ASPNETPatterns.Layered.Service\ASPNETPatterns.Layered.Service.csproj", "{7887C88E-FD08-46BE-8DC0-073714331058}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASPNETPatterns.Layered.Presentation", "ASPNETPatterns.Layered.Presentation\ASPNETPatterns.Layered.Presentation.csproj", "{4D61F716-EA16-4967-83B2-B1556081B298}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASPNETPatterns.Layered.WebUI", "ASPNETPatterns.Layered.WebUI\ASPNETPatterns.Layered.WebUI.csproj", "{05066FAD-4E85-4610-8D33-052D317F68B7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASPNETPatterns.Layered.Repository", "ASPNETPatterns.Layered.Repository\ASPNETPatterns.Layered.Repository.csproj", "{925BA668-F78D-4AF2-B07D-3103C8FB5878}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01 Data Access Layer", "01 Data Access Layer", "{6B360B4A-DE30-409B-AB9C-14E2C57F76CD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02 Business Logic Layer", "02 Business Logic Layer", "{F9903533-35BB-4C39-A1E4-D5D4D8C06C7D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03 Service Layer", "03 Service Layer", "{E176E696-2FB6-4F81-A207-821DABED5C76}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04 Presentation", "04 Presentation", "{2F823737-5627-4180-A2EB-BA86E2BFC95A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "05 User Experience Layer", "05 User Experience Layer", "{C2F44A8D-1CC1-459E-93C1-5BE934BA97D3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{607DFC84-7C84-4D6C-82B0-A0A5518F6A04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{607DFC84-7C84-4D6C-82B0-A0A5518F6A04}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{607DFC84-7C84-4D6C-82B0-A0A5518F6A04}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{607DFC84-7C84-4D6C-82B0-A0A5518F6A04}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7887C88E-FD08-46BE-8DC0-073714331058}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7887C88E-FD08-46BE-8DC0-073714331058}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7887C88E-FD08-46BE-8DC0-073714331058}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7887C88E-FD08-46BE-8DC0-073714331058}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D61F716-EA16-4967-83B2-B1556081B298}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D61F716-EA16-4967-83B2-B1556081B298}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D61F716-EA16-4967-83B2-B1556081B298}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D61F716-EA16-4967-83B2-B1556081B298}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05066FAD-4E85-4610-8D33-052D317F68B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05066FAD-4E85-4610-8D33-052D317F68B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05066FAD-4E85-4610-8D33-052D317F68B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05066FAD-4E85-4610-8D33-052D317F68B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{925BA668-F78D-4AF2-B07D-3103C8FB5878}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{925BA668-F78D-4AF2-B07D-3103C8FB5878}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{925BA668-F78D-4AF2-B07D-3103C8FB5878}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{925BA668-F78D-4AF2-B07D-3103C8FB5878}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{925BA668-F78D-4AF2-B07D-3103C8FB5878} = {6B360B4A-DE30-409B-AB9C-14E2C57F76CD}
+		{607DFC84-7C84-4D6C-82B0-A0A5518F6A04} = {F9903533-35BB-4C39-A1E4-D5D4D8C06C7D}
+		{7887C88E-FD08-46BE-8DC0-073714331058} = {E176E696-2FB6-4F81-A207-821DABED5C76}
+		{4D61F716-EA16-4967-83B2-B1556081B298} = {2F823737-5627-4180-A2EB-BA86E2BFC95A}
+		{05066FAD-4E85-4610-8D33-052D317F68B7} = {C2F44A8D-1CC1-459E-93C1-5BE934BA97D3}
+	EndGlobalSection
+EndGlobal
