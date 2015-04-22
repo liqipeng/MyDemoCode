@@ -1,0 +1,24 @@
+<!Doctype html>
+<html xmlns=http://www.w3.org/1999/xhtml>
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="../../js/angular.min.js"></script>
+</head>
+<body>
+    <div ng-app="myApp" ng-controller="myCtrl">
+        <form novalidate>
+            First Name: <br />
+            <input type="text" ng-model="user.firstName" /><br />
+            Last Name: <br />
+            <input type="text" ng-model="user.lastName" /><br />
+            <br />
+            <button ng-click="reset()">RESET</button>
+            <p>form = {{user}}</p>
+            <p>master = {{master}}</p>
+        </form>
+    </div>
+    
+    <script type="text/javascript" src="./myApp.js"></script>
+    <script type="text/javascript" src="./myCtrl.js"></script>
+</body>
+</html>
