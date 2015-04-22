@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASPNETPatterns.DAL.ProxyPattern.WebUI", "ASPNETPatterns.DAL.ProxyPattern.WebUI\ASPNETPatterns.DAL.ProxyPattern.WebUI.csproj", "{5775625A-BECE-469D-A769-55E1B13FADFD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASPNETPatterns.DAL.ProxyPattern.Model", "ASPNETPatterns.DAL.ProxyPattern.Model\ASPNETPatterns.DAL.ProxyPattern.Model.csproj", "{81DB0AB8-F9AA-436D-AB15-91231C2C2449}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASPNETPatterns.DAL.ProxyPattern.Repository", "ASPNETPatterns.DAL.ProxyPattern.Repository\ASPNETPatterns.DAL.ProxyPattern.Repository.csproj", "{5A8328D7-6CF9-4472-9231-EE0C2F8F613C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5775625A-BECE-469D-A769-55E1B13FADFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5775625A-BECE-469D-A769-55E1B13FADFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5775625A-BECE-469D-A769-55E1B13FADFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5775625A-BECE-469D-A769-55E1B13FADFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81DB0AB8-F9AA-436D-AB15-91231C2C2449}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81DB0AB8-F9AA-436D-AB15-91231C2C2449}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81DB0AB8-F9AA-436D-AB15-91231C2C2449}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81DB0AB8-F9AA-436D-AB15-91231C2C2449}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A8328D7-6CF9-4472-9231-EE0C2F8F613C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A8328D7-6CF9-4472-9231-EE0C2F8F613C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A8328D7-6CF9-4472-9231-EE0C2F8F613C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A8328D7-6CF9-4472-9231-EE0C2F8F613C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
