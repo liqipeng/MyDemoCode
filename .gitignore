@@ -4,3 +4,4 @@
 *.cache
 bin/
 obj/
+packages/
