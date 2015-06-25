@@ -42,12 +42,13 @@
 	};
 	
     //设置hello插件的一些方法的默认实现
+    //注：第一个参数为当前元素对应的jQuery对象
 	$.fn.hello.methods = {
 		options: function(jq){
 		    return $.data(jq[0], 'hello').options;
 		},
 		sayHello: function (jq) {
-		    var opts = $.data(jq[0], 'hello').options;
+		    var opts = $.data(jq[0], 'hello').options; //获取配置参数
 		    for (var i = 0; i < opts.repeatTimes; i++) {
 		        opts.howToSay(opts.to);
 		    }
