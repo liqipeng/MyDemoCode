@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="keywords" content="">
+	<meta name="description" content="">
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="http://www.jeasyui.com/easyui/themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="http://www.jeasyui.com/easyui/themes/icon.css">
+	<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+	<script type="text/javascript" src="http://www.jeasyui.com/easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="jquery.hello.js"></script>
+</head>
+<body>
+    <div id="divMyPlugin" class="easyui-hello" data-options="to:'world', repeatTimes:2, myColor:'red', some:'aaa' ">点我sayHello两次</div>
+    <div id="divMyPlugin" class="easyui-hello" data-options="to:'world', myColor:'green', some:'aaa' ">点我sayHello一次</div>
+    <button onclick="invokePluginMethod()">调用插件的方法</button>
+    <script type="text/javascript">
+
+        function invokePluginMethod() {
+            $('#divMyPlugin').hello('sayHello');
+        }
+
+    </script>
+</body>
+</html>
