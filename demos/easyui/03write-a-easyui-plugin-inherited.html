@@ -5,17 +5,28 @@
 	<meta name="keywords" content="">
 	<meta name="description" content="">
 	<title></title>
-	<link rel="stylesheet" type="text/css" href="http://www.jeasyui.com/easyui/themes/default/easyui.css">
-	<link rel="stylesheet" type="text/css" href="http://www.jeasyui.com/easyui/themes/icon.css">
+	<link rel="stylesheet" type="text/css" href="easyui.css">
+	<link rel="stylesheet" type="text/css" href="icon.css">
+    <link rel="stylesheet" type="text/css" href="hello2.css">
 	<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
-	<script type="text/javascript" src="http://www.jeasyui.com/easyui/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="jquery.easyui.min.js"></script>
     <script type="text/javascript" src="jquery.hello.js"></script>
     <script type="text/javascript" src="jquery.hello.extension.js"></script>
+    <script type="text/javascript" src="jquery.hello2.js"></script>
 </head>
 <body>
-    <div id="divMyPlugin1" class="easyui-hello" data-options="to:'world', myColor:'red', some:'aaa' ">点我sayHello一次</div>
+    ①插件hello:
+    <div id="divMyPlugin1" class="easyui-hello" data-options="to:'world', myColor:'red'">点我sayHello一次</div>
     <div id="divMyPlugin2" class="easyui-hello" data-options="to:'world', repeatTimes:3, myColor:'green', some:'aaa', howToSay:customeHowToSay">点我sayHello三次</div>
     <button onclick="invokePluginMethod()">调用插件的方法</button><button onclick="invokePluginExMethod()">调用插件的拓展方法</button><button onclick="$('#divMsg').empty()">Clear</button>
+
+    <hr />
+    ②继承自hello的插件hello2:
+    <div id="divMyPlugin3" class="easyui-hello2" data-options="to:'world', myColor:'orange' , howToSay:customeHowToSay">点我sayHello一次，输入名字：</div>
+    <button onclick="invokePluginMethod2()">调用插件的方法（hello2）</button>
+
+    <hr />
+    Log:
     <div id="divMsg">
         
     </div>
@@ -23,6 +34,10 @@
 
         function invokePluginMethod() {
             $('#divMyPlugin2').hello('sayHello');
+        }
+
+        function invokePluginMethod2() {
+            $('#divMyPlugin3').hello2('sayHello');
         }
 
         function invokePluginExMethod() {
@@ -34,5 +49,7 @@
         }
 
     </script>
+
+    
 </body>
 </html>
