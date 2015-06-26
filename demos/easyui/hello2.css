@@ -1,0 +1,8 @@
+.hello2 {
+    border: dotted 1px gray;
+    padding:6px;
+}
+
+.hello2 input {
+    border-color:red;
+}

@@ -2,11 +2,14 @@
     function init(target) {
         //注：此处还不能获取options
 
-        //所以这里可以进行一些如设置样式、绑定时间的事情
+        //所以这里可以进行一些如设置样式、绑定事件的事情
         $(target).css('cursor', 'pointer');
 
         $(target).bind('click', function (e, preventBubble) {
-            $.fn.hello.methods.sayHello($(e.target));
+            if (e.target === target) {
+                $.fn.hello.methods.sayHello($(target));
+            }
+            e.stopPropagation();
             return false;
         });
 
