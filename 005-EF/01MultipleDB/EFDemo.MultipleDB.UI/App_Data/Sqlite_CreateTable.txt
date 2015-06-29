@@ -1,0 +1,10 @@
+﻿CREATE TABLE [Blogs] (
+  [BlogId] INTEGER NOT NULL PRIMARY KEY, 
+  [Name] NVARCHAR(128));
+
+
+CREATE TABLE [Posts] (
+  [PostId] INTEGER NOT NULL PRIMARY KEY, 
+  [Title] NVARCHAR(128), 
+  [Content] TEXT, 
+  [BlogId] INTEGER NOT NULL REFERENCES [Blogs]([BlogId]));
