@@ -1,0 +1,6 @@
+#相对路径是相对于Build_All.bat的
+#也可以是绝对路径
+#以井号作为注释
+#..\..\..\..\006-WCF\01WcfServices\WcfServices.sln
+ShowCmdArguments\ProjectCannotBuild\ProjectCannotBuild.csproj
+ShowCmdArguments\ShowCmdArguments\ShowCmdArguments.csproj
