@@ -1,0 +1,1 @@
+This demo is from [http://www.cnblogs.com/dudu/archive/2011/08/15/mvc_ioc_dependency_injection.html](http://www.cnblogs.com/dudu/archive/2011/08/15/mvc_ioc_dependency_injection.html).
