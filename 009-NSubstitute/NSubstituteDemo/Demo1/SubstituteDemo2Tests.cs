@@ -19,12 +19,15 @@ namespace Demo1
             IPersonManager personManager = new PersonManager(log, personDAL);
 
             //Act
-            personManager.AddPerson("Tom", 18);
+            Guid key = Guid.NewGuid();
+            personManager.AddPerson("Tom", 18, key);
 
             //Assert
             log.Received().Info(Arg.Any<Log>());
             personDAL.Received<IDAL<Person, int>>()
-                .Insert<Person>(Arg.Is<Person>(p => !string.IsNullOrWhiteSpace(p.Name) && p.Age > 0));
+                .Insert<Person>(Arg.Is<Person>(p => !string.IsNullOrWhiteSpace(p.Name) 
+                    && p.Age > 0
+                    && p.Key == key));
         }
     }
 }

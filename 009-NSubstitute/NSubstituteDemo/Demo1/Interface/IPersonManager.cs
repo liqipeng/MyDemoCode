@@ -8,6 +8,6 @@ namespace Demo1.Interface
 {
     public interface IPersonManager
     {
-        void AddPerson(string name, int age);
+        void AddPerson(string name, int age, Guid key);
     }
 }

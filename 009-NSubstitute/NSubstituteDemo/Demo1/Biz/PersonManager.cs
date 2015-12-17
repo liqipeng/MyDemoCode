@@ -15,9 +15,9 @@ namespace Demo1.Biz
             this._personDAL = personDAL;
         }
 
-        public void AddPerson(string name, int age)
+        public void AddPerson(string name, int age, Guid key)
         {
-            this._personDAL.Insert(new Person() { Name = name, Age = age });
+            this._personDAL.Insert(new Person() { Name = name, Age = age, Key = key });
 
             this._log.Info(new Log() { Content = "add a new person." });
         }
