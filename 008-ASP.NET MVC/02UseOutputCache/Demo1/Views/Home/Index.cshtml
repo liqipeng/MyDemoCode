@@ -1,0 +1,28 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model Demo1.Models.Employee
+
+@section Styles{
+<style type="text/css">
+    html, body {
+        margin:0;
+        padding:0;
+    }
+</style>    
+}
+
+@section Scripts{
+<script type="text/javascript">
+    console.log('Hello, world.');
+</script>
+}
+
+<h2>Index</h2>
+<ul>
+    <li>@Model.ID</li>
+    <li>@Model.Name</li>
+    <li>@Model.Gender</li>
+    <li>@Model.Birthday</li>
+</ul>
