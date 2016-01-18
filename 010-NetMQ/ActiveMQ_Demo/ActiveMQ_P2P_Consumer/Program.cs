@@ -36,7 +36,6 @@ namespace ActiveMQ_P2P_Consumer
         static void consumer_Listener(IMessage message)
         {
             ITextMessage msg = (ITextMessage)message;
-            //异步调用下，否则无法回归主线程
             Console.WriteLine(msg.Text);
         }
     }
