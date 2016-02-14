@@ -3,7 +3,7 @@ var newestUrl = 'http://www.jubi.com/coin/allcoin?t=0.0' + requestVersion;
 var financeUrl = 'http://www.jubi.com/ajax/user/finance?t=0.0' + requestVersion;
 var showDebug = false;
 var filterList = [
-    'vtc'
+    ''
 ];
 
 analyze(getNewest);
@@ -21,7 +21,7 @@ function getNewest(financeData) {
         for (var key in jsonData) {
             var balanceField = key + '_balance';
 			var lockField = key + '_lock';
-            if (((financeData.data[balanceField] > 0) == false)) {
+            if (((financeData.data[balanceField] > 0  || financeData.data[lockField] > 0) == false)) {
                 delete jsonData[key];
             } else if ((financeData.data[balanceField] > 0) && (filterList.join().indexOf(key) > -1)) {
                 jsonData[key] = null;
@@ -44,6 +44,12 @@ function getNewest(financeData) {
 				currentPrice:1,
 				buyPrice:1,
 				balance:financeData.data.cny_balance
+			};
+			jsonData['cny_lock']={
+				cnName:'冻结',
+				currentPrice:1,
+				buyPrice:1,
+				balance:financeData.data.cny_lock
 			};
 			jsonData['cny']={
 				cnName:'Total',
