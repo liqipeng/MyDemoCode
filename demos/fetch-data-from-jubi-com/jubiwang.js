@@ -96,7 +96,9 @@ function showData(jsonData) {
             $('<td>' + jsonData[key].buyPrice.toFixed(7) + '</tb>').attr('style', 'text-align:right;border: 1px solid green;color:white;').appendTo($tr);
             $('<td>' + jsonData[key].currentPrice.toFixed(7) + '</tb>').attr('style', 'text-align:right;border: 1px solid green;color:white;').appendTo($tr);
             $('<td>' + jsonData[key].balance.toFixed(4) + '</tb>').attr('style', 'text-align:right;border: 1px solid green;color:white;').appendTo($tr);
-            $('<td>' + (jsonData[key].currentPrice * jsonData[key].balance).toFixed(3) + '</tb>').attr('style', 'text-align:right;border: 1px solid green;color:white;').appendTo($tr);
+            $('<td>' 
+			+ (jsonData[key].currentPrice * jsonData[key].balance).toFixed(3) + formatOffset((jsonData[key].currentPrice-jsonData[key].buyPrice) * jsonData[key].balance)
+			+ '</tb>').attr('style', 'text-align:right;border: 1px solid green;color:white;').appendTo($tr);
             $tr.appendTo($tb);
 
             console.log('name=' + jsonData[key].cnName
@@ -105,7 +107,15 @@ function showData(jsonData) {
             + ', balance=' + jsonData[key].balance);
         }
     }
-    $tb.prependTo($(document.body)).attr('style', 'position:fixed;bottom:10px;right:10px;background-color:#205081;color:white;z-index:999999;width:500px;');
+    $tb.prependTo($(document.body)).attr('style', 'position:fixed;bottom:10px;right:10px;background-color:#205081;color:white;z-index:999999;width:600px;');
+}
+
+function formatOffset(offset){
+	if(offset>=0){
+		return '[+' + offset.toFixed(3) + ']'
+	}else{
+		return '[' + offset.toFixed(3) + ']'
+	}
 }
 
 function getUpDown(buyPrice, currentPrice) {
