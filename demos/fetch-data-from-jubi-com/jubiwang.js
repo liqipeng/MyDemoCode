@@ -123,7 +123,7 @@ function ajaxQueue(keys, jsonData, endCallback) {
     var func = function (key) {
         debugLog(index + '-' + key);
         $.getJSON(getBuyInfoUrl(key), function (recordInfo) {
-            jsonData[key].buyPrice = recordInfo.data.datas[0].p;
+            jsonData[key].buyPrice = getBuyPrice(recordInfo.data.datas);
             jsonData[key].cnName = jsonData[key][0];
             jsonData[key].currentPrice = jsonData[key][1];
 
@@ -139,6 +139,15 @@ function ajaxQueue(keys, jsonData, endCallback) {
         });
     };
     func(keys[index]);
+}
+
+function getBuyPrice(records){
+    for(var i=0;i<records.length;i++){
+        if(records[i] && records[i].t == '买入'){
+            return records[i].p;
+        }
+    }
+    return 0;
 }
 
 function getBuyInfoUrl(key) {
