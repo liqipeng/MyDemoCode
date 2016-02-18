@@ -107,7 +107,7 @@ function showData(jsonData) {
             + ', balance=' + jsonData[key].balance);
         }
     }
-    $tb.prependTo($(document.body)).attr('style', 'position:fixed;bottom:10px;right:10px;background-color:#205081;color:white;z-index:999999;width:600px;');
+    $tb.prependTo($(document.body)).attr('style', 'position:fixed;bottom:10px;right:10px;background-color:#205081;color:white;z-index:999999;width:600px;max-height: 80%;overflow: scroll;');
 }
 
 function formatOffset(offset) {
@@ -133,7 +133,7 @@ function ajaxQueue(keys, jsonData, endCallback) {
     var func = function (key) {
         debugLog(index + '-' + key);
         $.getJSON(getBuyInfoUrl(key), function (recordInfo) {
-            jsonData[key].buyPrice = getBuyPrice(recordInfo.data.datas);
+            jsonData[key].buyPrice = getBuyPrice(recordInfo.data.datas, jsonData[key].balance);
             jsonData[key].cnName = jsonData[key][0];
             jsonData[key].currentPrice = jsonData[key][1];
 
@@ -151,15 +151,27 @@ function ajaxQueue(keys, jsonData, endCallback) {
     func(keys[index]);
 }
 
-function getBuyPrice(records) {
+function getBuyPrice(records, balance) {
+    var price = 0;
+    var count = 0;
     for (var i = 0; i < records.length; i++) {
         if (records[i] && records[i].t == '买入') {
-            return records[i].p;
+            count += records[i].n;
+            if (count <= balance) {
+                price += records[i].p * (records[i].n / balance);
+            } else {
+                price += records[i].p * ((balance - count + records[i].n) / balance);
+                break;
+            }
         }
     }
-    return 0;
+    if (count < balance) {
+        price = price * balance / count;
+    }
+
+    return price;
 }
 
 function getBuyInfoUrl(key) {
-    return 'http://www.jubi.com/ajax/trade/order/coin/' + key + '/type/3?p=1';
+    return 'http://www.jubi.com/ajax/trade/order/coin/' + key + '/type/1?p=1';
 }
