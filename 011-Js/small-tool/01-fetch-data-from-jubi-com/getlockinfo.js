@@ -40,14 +40,14 @@ function showTradeInfo(arrInfo) {
                     //+ ', key=' + arrInfo[i].key
                     + ', status=' + arrInfo[i].tradeData[j].status
                     + ', type=' + arrInfo[i].tradeData[j].type
-                    + ', ' + arrInfo[i].tradeData[j].num_total + ' x '
+                    + ', (' + parseFloat(arrInfo[i].tradeData[j].num_total).toFixed(3) + '-' + (parseFloat(arrInfo[i].tradeData[j].num_total)-parseFloat(arrInfo[i].tradeData[j].num_over)).toFixed(3) + ') ¡Á '
                     + arrInfo[i].tradeData[j].price + '='
-                    + (parseFloat(arrInfo[i].tradeData[j].num_total) * parseFloat(arrInfo[i].tradeData[j].price)).toFixed(3);
+                    + (parseFloat(arrInfo[i].tradeData[j].num_over) * parseFloat(arrInfo[i].tradeData[j].price)).toFixed(3);
                 result.push(record);
                 if (arrInfo[i].tradeData[j].type == 'sell') {
-                    sumSell += parseFloat(arrInfo[i].tradeData[j].num_total) * parseFloat(arrInfo[i].tradeData[j].price);
+                    sumSell += parseFloat(arrInfo[i].tradeData[j].num_over) * parseFloat(arrInfo[i].tradeData[j].price);
                 } else if (arrInfo[i].tradeData[j].type == 'buy') {
-                    sumBuy += parseFloat(arrInfo[i].tradeData[j].num_total) * parseFloat(arrInfo[i].tradeData[j].price);
+                    sumBuy += parseFloat(arrInfo[i].tradeData[j].num_over) * parseFloat(arrInfo[i].tradeData[j].price);
                 }
 
                 //debugLog(arrInfo[i].tradeData[j]);
