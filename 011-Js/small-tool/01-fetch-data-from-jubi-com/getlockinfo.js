@@ -100,7 +100,7 @@ function getTradeInfo(arrInfo, type, endCallback) {
             }
 
             setTimeout(function () {
-                $.getJSON(getChengjiaoUrl(info.key), function (chengjiaoInfo) {
+                $.getJSON(getChengjiaoUrl(info.key, type), function (chengjiaoInfo) {
                     $(chengjiaoInfo.data.datas).each(function (i, item) {
                         item.cnName = info.cnName;
                     });
@@ -139,8 +139,9 @@ function getTradeUrl(key, type) {
     return url;
 }
 
-function getChengjiaoUrl(key){
-    var url = 'http://www.jubi.com/ajax/trade/order/coin/' + key + '/type/3?p=1';
+function getChengjiaoUrl(key, type){
+	var types = { sell:1, buy:2 };
+    var url = 'http://www.jubi.com/ajax/trade/order/coin/' + key + '/type/' + (types[type]||3) + '?p=1';
     debugLog(url);
     return url;
 }
