@@ -66,7 +66,7 @@ function showTradeInfo(arrInfo) {
     for (var i = 0; i < newest.length; i++) {
         //{"id":"31376","p":0.211201,"n":112.11,"s":23.67774411,"c":"1455652485","f":"0.168165 GOOC","t":"\u4e70\u5165"}
         console.log(newest[i]);
-        var item = fncDT(newest[i].c) + '    ' + newest[i].t + '  ' + showCnName(newest[i].cnName) + '    гд' + parseFloat(newest[i].s).toFixed(3);
+        var item = fncDT(newest[i].c) + '    ' + newest[i].t + '  ' + newest[i].p.toFixed(7)+ '  ' + showCnName(newest[i].cnName) + '    гд' + parseFloat(newest[i].s).toFixed(3);
         result.push(item);
     }
 
@@ -110,7 +110,7 @@ function getTradeInfo(arrInfo, type, endCallback) {
                     if (index <= arrInfo.length - 1) {
                         setTimeout(function () {
                             func(arrInfo[index]);
-                        }, 800);
+                        }, 200);
                     } else {
                         debugLog('finish.');
                         if ($.isFunction(endCallback)) {
@@ -119,7 +119,7 @@ function getTradeInfo(arrInfo, type, endCallback) {
                     }
 
                 });
-            }, 800);
+            }, 200);
 
         });
     };
