@@ -90,21 +90,25 @@ utils = {
             cfg.debugLog = utils.log;
         }
         var index = 0;
-        var next = function () {
-            ++index;
-            if (index <= cfg.items.length - 1) {
-                setTimeout(function () {
-                    func(cfg.items[index]);
-                }, cfg.interval || 800);
-            } else {
-                if ($.isFunction(cfg.endCallback)) {
-                    cfg.endCallback();
+        var next = function (end) {
+            if (!end) {
+                ++index;
+                if (index <= cfg.items.length - 1) {
+                    setTimeout(function () {
+                        func(cfg.items[index]);
+                    }, cfg.interval || 800);
+                } else {
+                    if ($.isFunction(cfg.endCallback)) {
+                        cfg.endCallback();
+                    }
+                    cfg.debugLog('finish.');
                 }
-                cfg.debugLog('finish.');
+            } else {
+                console.log('end=false, process is suspended.');
             }
         };
         var func = function (item) {
-            cfg.debugLog('no.' + index, item);
+            cfg.debugLog('no. ' + index, item);
             var url = cfg.getUrl(item, index);
             cfg.debugLog(url);
 
@@ -113,8 +117,14 @@ utils = {
                 type: cfg.type || 'GET',
                 dataType: 'json',
                 success: function (data, textStatus, jqXHR) {
-                    cfg.dataIsOK(data, item, index);
-                    next();
+                    var result = cfg.dataIsOK(data, item, index);
+                    if (typeof result == 'boolean' && result === true) { //dataIsOK如果返回true，则next
+                        next();
+                    } else if ($.isFunction(result)) {
+                        result(next);
+                    } else {
+                        utils.log('suspended!');
+                    }
                 },
                 error: function (err) {
                     if (cfg.continueWhenError) {
@@ -123,7 +133,7 @@ utils = {
                     cfg.debugLog('ajax error:', err);
                 }
             };
-            if ($.isFunction(cfg.setAjaxData)) {
+            if ($.isFunction(cfg.setAjaxData)) { //设置ajax的请求参数
                 ajaxCfg.data = setAjaxData(item, index);
             }
 
@@ -198,7 +208,7 @@ dbTool = {
                        }
                    },
                     function (tx, err) {
-                        utils.msg(err);
+                        utils.msg('ERROR: ' + err.code + ', ' + err.message);
                     }
                 );
                 utils.log(i + ' - ' + arrSqlAndParams[i].sql + ' - ' + JSON.stringify(arrSqlAndParams[i].params));
@@ -216,15 +226,19 @@ urls = {
     getFinanceUrl: function () {
         return 'http://www.jubi.com/ajax/user/finance?t=0.0' + new Date().getTime();
     },
-    getTradeUrl: function (key, type) {
+    getTradeUrl: function (key, type, page) {
         var types = { buy: 1, sell: 2 };
         //type: 买=1 卖=2 买卖=3
-        return 'http://www.jubi.com/ajax/trade/order/coin/' + key + '/type/' + (types[type] || 3) + '?p=1';
+        var url = 'http://www.jubi.com/ajax/trade/order/coin/' + key + '/type/' + (types[type] || 3) + '?p=' + (page || 1);
+        utils.log(url);
+        return url;
     },
-    getDelegateUrl: function (key, type) {
+    getDelegateUrl: function (key, type, page) {
         //type: sell 卖出; buy 买入; 0买卖
         //status: 未提交=2
-        return 'http://www.jubi.com/ajax/trade/list/coin/' + key + '/type/' + type + '/status/0?p=1';
+        var url = 'http://www.jubi.com/ajax/trade/list/coin/' + key + '/type/' + type + '/status/0?p=' + (page || 1);
+        utils.log(url);
+        return url;
     }
 };
 
@@ -236,10 +250,10 @@ if (!openDatabase) {
 
 var dbInfo = {
     dbName: "CoinDB",  // 名称
-    dbVersion: "0.1", // 版本
-    dbDisplayName: "CoinDB Version 0.1", // 显示名称
+    dbVersion: "0.01", // 版本
+    dbDisplayName: "CoinDB Version 0.01", // 显示名称
     dbEstimatedSize: 10 * 1024 * 1024  // 大小 (byte) 
-}; 
+};
 
 var db = window.openDatabase(dbInfo.dbName, dbInfo.dbVersion,
         dbInfo.dbDisplayName, dbInfo.dbEstimatedSize);
@@ -258,6 +272,10 @@ coinUtil = {
                 sql: "CREATE TABLE IF NOT EXISTS finance (id INTEGER PRIMARY KEY AUTOINCREMENT, key STRING, balance REAL, lock REAL, rate REAL, total REAL)",
                 params: []
             },
+            {
+                sql: "CREATE TABLE IF NOT EXISTS trade (id INTEGER PRIMARY KEY, key STRING, price REAL, count REAL, amount REAL)",
+                params: []
+            }
         ];
         dbTool.executeBatchSql(db, arrSqlAndParams, function () {
             utils.log('coin database created table successfully!');
@@ -278,7 +296,7 @@ coinUtil = {
             }
             sqls.push({
                 sql: insertSql,
-                params:['cny', '人民币', 1, 'cny']
+                params: ['cny', '人民币', 1, 'cny']
             });
             utils.log(sqls);
 
@@ -312,11 +330,11 @@ coinUtil = {
 
             var insertSql = "INSERT INTO finance(key, balance, lock, rate, total) SELECT ?, ?, ?, ?,? WHERE NOT EXISTS(SELECT 1 FROM finance WHERE key=?)";
             var sqls = [];
-            var balanceField = key + '_balance';
-            var lockField = key + '_lock';
-            var rateField = key + '_rate';
-            var totalField = key + '_total';
             for (var key in financeData.msg) {
+                var balanceField = key + '_balance';
+                var lockField = key + '_lock';
+                var rateField = key + '_rate';
+                var totalField = key + '_total';
                 sqls.push({
                     sql: insertSql,
                     params: [key
@@ -331,11 +349,11 @@ coinUtil = {
             sqls.push({
                 sql: insertSql,
                 params: ['cny'
-                    , financeData.data['cny']
-                    , financeData.data[lockField] || null
+                    , financeData.data['cny'] || null
+                    , financeData.data['cny_lock'] || null
                     , 0
-                    , financeData.data[totalField] || null
-                    , key
+                    , financeData.data['cny_total'] || null
+                    , 'cny'
                 ]
             });
 
@@ -356,7 +374,68 @@ coinUtil = {
         });
     },
     initTrade: function (then) {
+        dbTool.executeSql(db, "SELECT * FROM finance WHERE key<>? and key<>? and key <>? and key <> ? ", ['cny', 'qec', 'pts', 'mec'], function (tx, result) {
+            utils.log('finance count=' + result.rows.length);
 
+            var ajaxCfg = [];
+
+            utils.ajaxQueue({
+                items: result.rows,
+                getUrl: function (item, index) {
+                    return urls.getTradeUrl(item.key, null, 1);
+                },
+                dataIsOK: function (data, item, idx) {
+                    if (data.status != 1) {
+                        coinUtil.notLogin();
+                        return false;
+                    } else {
+                        //ajaxCfg.push({
+                        //    key: item.key,
+                        //    pagemax: data.data.page.pagemax
+                        //});
+
+                        return function (next) {
+                            next();
+
+                            //(id INTEGER PRIMARY KEY, key STRING, price REAL, count REAL, amount REAL)
+                            var insertSql = 'INSERT INTO trade(id, key, price, count, amount) SELECT ?, ?, ?, ?,? WHERE NOT EXISTS(SELECT 1 FROM trade WHERE id=?)';
+                            var sqls = [];
+                            for (var idx in data.data.datas) {
+                                sqls.push({
+                                    sql: insertSql,
+                                    params: [data.data.datas[idx].id
+                                        , item.key
+                                        , data.data.datas[idx].p || null
+                                        , data.data.datas[idx].n || null
+                                        , data.data.datas[idx].s || null
+                                        , data.data.datas[idx].id
+                                    ]
+                                });
+                            }
+
+                            dbTool.executeBatchSql(db, sqls,
+                                function (arrNewIds) {
+                                    utils.log('all trade insert success. count=' + arrNewIds.length);
+
+                                    if ($.isFunction(then)) {
+                                        //then();
+                                    }
+                            });
+
+                            //dbTool.executeSql(db, "SELECT MAX(id) FROM trade WHERE key=? ", [item.key], function (tx2, result2) {
+                            //    next();
+                            //        console.log('---------------------------');
+                            //        console.log(result2);
+                            //});
+                        };
+                    }
+                },
+                endCallback: function () {
+                    console.log('trade buy data complete......');
+                },
+                interval: 100
+            });
+        });
     },
     initDelegate: function (then) {
 
@@ -366,7 +445,9 @@ coinUtil = {
 coinUtil.initTable(function () {
     coinUtil.initAllCoin(function () {
         coinUtil.initFinance(function () {
-            utils.log('finished................');
+            coinUtil.initTrade(function () {
+                utils.log('finished................');
+            });
         });
     });
 });
