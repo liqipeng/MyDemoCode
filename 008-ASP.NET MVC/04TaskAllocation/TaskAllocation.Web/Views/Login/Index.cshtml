@@ -1,0 +1,54 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutWithEasyui.cshtml";
+}
+
+@section Scripts{
+<script type="text/javascript">
+    function login() {
+        var loginUrl = '@Url.Content("~/Login")';
+        var loginSuccessPageUrl = '@Url.Content("~/Home")';
+        $.post(loginUrl, {
+            Name: $('#txtName').textbox('getValue'),
+            Password: $('#txtPassword').textbox('getValue')
+        }, function (data) {
+            if (data.ResponseState == ResponseState.Success) {
+                showMsg('登陆成功！', function () {
+                    setTimeout(function () {
+                        window.location = loginSuccessPageUrl;
+                    }, 1100);
+                });
+            } else {
+                showMsg(data.Message);
+            }
+        });
+    }
+
+    function showMsg(msg, callback) {
+        //$.messager.alert('info', msg, 'info', callback);
+        $.Util.quietMessage(msg);
+        if ($.isFunction(callback)) {
+            callback();
+        }
+    }
+
+</script>
+}
+
+<div class="easyui-layout" style="height:100%; height:100%;" data-options="fit:true">
+    <div data-options="region:'north'" style="height:50px">
+        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="$.messager.alert('info', 'Hello', 'error')">Hello, world!</a>
+        <a href="@Url.Content("~/User/Index")">用户管理</a>
+        <a href="@Url.Content("~/JsUtilTest/Index")">Js测试页</a>
+    </div>
+    <div data-options="region:'south',split:true" style="height:50px;"></div>
+    <div data-options="region:'east',split:true" title="East" style="width:100px;"></div>
+    <div data-options="region:'west',split:true" title="West" style="width:100px;"></div>
+    <div data-options="region:'center',title:'Main Title',iconCls:'icon-ok'">
+        <form>
+            用户名：<input id="txtName" class="easyui-textbox" type="text" /><br />
+            用户名：<input id="txtPassword" class="easyui-textbox" type="password" /><br />
+            <a href="javascript:void(0)" class="easyui-linkbutton" onclick="login()">登陆</a>
+        </form>
+    </div>
+</div>

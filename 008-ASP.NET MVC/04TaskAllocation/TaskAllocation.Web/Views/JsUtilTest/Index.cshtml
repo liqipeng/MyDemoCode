@@ -1,0 +1,57 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutWithEasyui.cshtml";
+}
+
+@section Scripts
+{
+    <script>
+
+        function generateGuid() {
+            $.Util.quietMessage($.Util.newGuid());
+        }
+
+        function showDialog() {
+            $.Util.openDialog({
+                iframeUrl: 'http://www.baidu.com',
+                onClose: function () {
+                    console.log('close dialog');
+                }
+            });
+        }
+
+        function showViewDialog() {
+            $.Util.openViewDialog({
+                iframeUrl: 'http://www.baidu.com',
+                onClose: function () {
+                    console.log('close dialog');
+                }
+            });
+        }
+
+        function showSubmitDialog() {
+            $.Util.openSubmitDialog({
+                iframeUrl: 'http://www.baidu.com',
+                onClose: function () {
+                    console.log('close dialog');
+                },
+                leftButtonClick: function (closeDlg) {
+                    console.log('clicked left button');
+                    closeDlg();
+                }
+            });
+        }
+
+        $(function () {
+            $.Util.quietMessage('Hello, world!');
+        });
+
+    </script> 
+}
+<h2>Util Test Page</h2>
+<div>
+    <button onclick="generateGuid()">生成GUID</button>
+    <button onclick="showDialog()">showDialog</button>
+    <button onclick="showViewDialog()">showViewDialog</button>
+    <button onclick="showSubmitDialog()">showSubmitDialog</button>
+</div>

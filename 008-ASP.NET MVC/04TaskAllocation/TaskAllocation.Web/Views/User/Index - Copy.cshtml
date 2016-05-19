@@ -1,0 +1,47 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutWithEasyui.cshtml";
+}
+
+<div class="easyui-layout" style="height:100%; height:100%;" data-options="fit:true">
+    <div data-options="region:'north'" style="height:50px">
+        
+    </div>
+    <div data-options="region:'south',split:true" style="height:50px;"></div>
+    <div data-options="region:'east',split:true" title="East" style="width:100px;"></div>
+    <div data-options="region:'west',split:true" title="West" style="width:100px;"></div>
+    <div data-options="region:'center',title:'Main Title',iconCls:'icon-ok'">
+        <table class="easyui-datagrid"
+               data-options="
+               toolbar:'#dgToolbar',
+               footer:'#dgFooter',
+               url:'@Url.Content("~/Scripts/datagrid_data1.json")',
+               method:'get',
+               border:false,
+               singleSelect:true,
+               fit:true,
+               fitColumns:true">
+            <thead>
+                <tr>
+                    <th data-options="field:'ck',checkbox:true"></th>
+                    <th data-options="field:'itemid'" width="80">Item ID</th>
+                    <th data-options="field:'productid'" width="100">Product ID</th>
+                    <th data-options="field:'listprice',align:'right'" width="80">List Price</th>
+                    <th data-options="field:'unitcost',align:'right'" width="80">Unit Cost</th>
+                    <th data-options="field:'attr1'" width="150">Attribute</th>
+                    <th data-options="field:'status',align:'center'" width="60">Status</th>
+                </tr>
+            </thead>
+        </table>
+        <div id="dgToolbar">
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" onclick="$.messager.alert('info', 'Hello', 'error')"></a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" onclick="$.messager.alert('info', 'Hello', 'error')"></a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" onclick="$.messager.alert('info', 'Hello', 'error')"></a>
+        </div>
+        <div id="dgFooter">
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" onclick="$.messager.alert('info', 'Hello', 'error')"></a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" onclick="$.messager.alert('info', 'Hello', 'error')"></a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" onclick="$.messager.alert('info', 'Hello', 'error')"></a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,103 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutWithEasyui.cshtml";
+}
+
+<div class="easyui-layout" style="height:100%; height:100%;" data-options="fit:true">
+    <div data-options="region:'north'" style="height:50px">
+        @if (ViewBag.IsLogon)
+        {
+            <a href="@Url.Content("~/Login/Exit")">退出登陆</a>
+        }
+    </div>
+    <div data-options="region:'south',split:true" style="height:50px;"></div>
+    <div data-options="region:'east',split:true" title="East" style="width:100px;"></div>
+    <div data-options="region:'west',split:true" title="West" style="width:100px;"></div>
+    <div data-options="region:'center',title:'Main Title',iconCls:'icon-ok'">
+        <table id="dg" class="easyui-datagrid"
+               data-options="
+               toolbar:'#dgToolbar',
+               url:'@Url.Content("~/User/RetrieveByPage")',
+               method:'get',
+               border:false,
+               //singleSelect:true,
+               pagination:true,
+               fit:true,
+               fitColumns:true">
+            <thead>
+                <tr>
+                    <th data-options="field:'ck',checkbox:true"></th>
+                    <th data-options="field:'Id'">Id</th>
+                    <th data-options="field:'Name'">Name</th>
+                    <th data-options="field:'delete', formatter:deleteFormatter">删除</th>
+                </tr>
+            </thead>
+        </table>
+        <div id="dgToolbar">
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" onclick="$('#dlgEditUser').dialog('open')" plain="true"></a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-delete" onclick="$.messager.alert('info', 'Hello', 'error')" plain="true"></a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" onclick="$.messager.alert('info', 'Hello', 'error')" plain="true"></a>
+        </div>
+    </div>
+</div>
+
+<div id="dlgEditUser" class="easyui-dialog" data-options="modal:true, closed:true, onOpen:onDlgEditUserOpen">
+    <input type="hidden" id="txtId" />
+    <p>用户名：<input type="text" id="txtName" class="easyui-textbox" /></p>
+    <p><a href="javascript:void(0)" class="easyui-linkbutton" onclick="saveUser()">提交</a></p>
+</div>
+
+<script type="text/javascript">
+
+    function saveUser() {
+        var id = $('#txtId').val();
+        var name = $.trim($('#txtName').val());
+        if (!name) {
+            showMsg('用户名不能为空！');
+            return;
+        }
+
+        var saveUrl = '@Url.Content("~/User/Create")';
+        $.post(saveUrl, { Id: id, Name: name }, function (data) {
+            if (data.ResponseState == ResponseState.Success) {
+                showMsg('保存成功！', function () {
+                    $('#dg').datagrid('reload');
+                    $('#dlgEditUser').dialog('close');
+                });
+            } else {
+                showMsg(data.Message);
+            }
+        }, "json");
+    }
+
+    function showMsg(msg, callback) {
+        //$.messager.alert('info', msg, 'info', callback);
+        $.Util.quietMessage(msg);
+        if ($.isFunction(callback)) {
+            callback();
+        }
+    }
+
+    function onDlgEditUserOpen() {
+        $('#txtId').val('');
+        $('#txtName').textbox('setValue', '');
+    }
+
+    function deleteFormatter(val, row, index) {
+        return "<a href='javascript:void(0)' onclick='deleteUser(" + row.Id + ")'>删除</a>"
+    }
+
+    function deleteUser(id) {
+        var delUrl = '@Url.Content("~/User/Delete")';
+        $.get(delUrl, { id: id }, function (data) {
+            if (data.ResponseState == ResponseState.Success) {
+                showMsg('删除成功！', function () {
+                    $('#dg').datagrid('reload');
+                });
+            } else {
+                showMsg(data.Message);
+            }
+        }, "json");
+    }
+
+</script>
