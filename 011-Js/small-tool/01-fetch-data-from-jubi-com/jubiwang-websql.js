@@ -215,6 +215,60 @@ dbTool = {
             }
             utils.log('end executeBatchSql');
         });
+    },
+    dropDatabase: function (name, cb) {
+        /* This will fetch all tables from sqlite_master
+         * except some few we can't delete.
+         * It will then drop (delete) all tables.
+         * as a final touch, it is going to change the database
+         * version to "", which is the same thing you would get if
+         * you would check if it the database were just created
+         *
+         * ref:http://stackoverflow.com/questions/7183049/how-to-delete-a-database-in-websql-programmatically
+         * chrome://settings/cookies
+         *
+         * @param name [string] - the database to delete
+         * @param cb [function] - the callback when it's done
+         */
+
+        // empty string means: I do not care what version, desc, size the db is
+        var db = openDatabase(name, "", "", "");
+
+        function error(tx, err) {
+            console.log(err);
+        }
+
+        db.transaction(function (ts) {
+            // query all tabels from sqlite_master that we have created and can modify
+            var query = "SELECT * FROM sqlite_master WHERE name NOT LIKE 'sqlite\\_%' escape '\\' AND name NOT LIKE '\\_%' escape '\\'";
+            var args = [];
+            var success = function (tx, result) {
+                var rows, i, n, name;
+
+                rows = result.rows;
+                n = i = rows.length;
+
+                // invokes cb once it¡¯s called n times
+                function after() {
+                    if (--n < 0) {
+                        // Change the database version back to empty string
+                        // (same as when we compear new database creations)
+                        db.changeVersion(db.version, "", function () { }, error, cb);
+                    }
+                }
+
+                while (i--) {
+                    // drop all tabels and calls after() each time
+                    name = JSON.stringify(rows.item(i).name);
+                    tx.executeSql('DROP TABLE ' + name, [], after, error);
+                }
+
+                // call it just 1 more extra time incase we didn't get any tabels
+                after();
+            };
+
+            ts.executeSql(query, args, success, error);
+        });
     }
 };
 
@@ -451,3 +505,45 @@ coinUtil.initTable(function () {
         });
     });
 });
+
+function dropDatabase(name, cb){
+    // empty string means: I do not care what version, desc, size the db is
+    var db = openDatabase(name, "", "", "");
+
+    function error(tx, err){
+        console.log(err);
+    }
+
+    db.transaction(function (ts) {
+        // query all tabels from sqlite_master that we have created and can modify
+        var query = "SELECT * FROM sqlite_master WHERE name NOT LIKE 'sqlite\\_%' escape '\\' AND name NOT LIKE '\\_%' escape '\\'";
+        var args = [];
+        var success = function(tx, result) {
+            var rows, i, n, name;
+
+            rows = result.rows;
+            n = i = rows.length;
+
+            // invokes cb once it¡¯s called n times
+            function after(){
+                if (--n < 0) {
+                    // Change the database version back to empty string
+                    // (same as when we compear new database creations)
+                    db.changeVersion(db.version, "", function(){}, error, cb);
+                }
+            }
+
+            while(i--){
+                // drop all tabels and calls after() each time
+                name = JSON.stringify(rows.item(i).name);
+                tx.executeSql('DROP TABLE ' + name, [], after, error);
+            }
+
+            // call it just 1 more extra time incase we didn't get any tabels
+            after();
+        };
+
+    ts.executeSql(query, args, success, error);
+    });
+
+}
